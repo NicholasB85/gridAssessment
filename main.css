@@ -1,0 +1,19 @@
+#grid, .row, .cell {
+    box-sizing: border-box;
+}
+
+.grid {
+    margin-bottom: 40px;
+}
+
+.cell {
+    margin: 0;
+    border: 1px dotted grey;
+    display: inline-block;  
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
