@@ -42,6 +42,7 @@ Grid.prototype = {
     
     addElement: function (parentElement) {
         this.element = document.createElement("div");
+        this.element.addEventListener("click", this.clickHandle.bind(this));
         this.element.classList.add("grid");
         this.element.id = "grid";
         this.parentElement = parentElement;
@@ -50,6 +51,20 @@ Grid.prototype = {
 
     findCellByIndexes: function (rowIndex, colIndex) {
         return this.gridArray[Number(rowIndex)][Number(colIndex)]
+    },
+
+    clickHandle: function (event) {
+        
+        console.log(event.target.dataset.rowIndex)
+        let x = ( this.findCellByIndexes( event.target.dataset.rowIndex , event.target.dataset.colIndex))
+        console.log("hey")
+        console.log(x)
+        x.setAsClicked();
+        console.log(x);
+    },
+
+    findNeighbor: function ( cell ) {
+        
     },
 
     constructor: Grid,

@@ -2,6 +2,7 @@ function Cell(rowIndex, colIndex, width, height) {
     this.element = document.createElement("div");
     this.rowIndex = rowIndex;
     this.colIndex = colIndex;
+    this.isClicked = false;
     this.element.dataset.rowIndex = rowIndex;
     this.element.dataset.colIndex = colIndex;
     this.element.classList.add("cell");
@@ -15,6 +16,9 @@ function Cell(rowIndex, colIndex, width, height) {
 
 Cell.prototype = {
 
+    setAsClicked: function() {
+        this.isClicked = true;
+    },
     
 
     constructor: Cell,
