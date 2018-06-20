@@ -1,9 +1,19 @@
-function Grid(rows, columns, cellWidth, cellHeight, parentElement) {
+function Grid(rows, columns, cellWidth, cellHeight, parentElement, offsets) {
 
     this.cellWidth = cellWidth;
     this.cellHeight = cellHeight;
     this.rows = rows;
     this.columns = columns;
+    this.offsets = Object.values(offsets || {
+        above: [-1, +0],
+        aboveRight: [-1, +1],
+        right: [+0, +1],
+        downRight: [+1, +1],
+        down: [+1, 0],
+        downLeft: [+1, -1],
+        left: [0, -1],
+        aboveLeft: [-1, -1]
+    })
     this.addElement(parentElement)
     this.createGrid();
 }
@@ -27,7 +37,7 @@ Grid.prototype = {
 
                 
             }
-            console.log(this.gridArray)
+            console.log(this.gridArray);
         }
     },
 
@@ -50,21 +60,28 @@ Grid.prototype = {
     },
 
     findCellByIndexes: function (rowIndex, colIndex) {
-        return this.gridArray[Number(rowIndex)][Number(colIndex)]
+        const row = this.gridArray[Number(rowIndex)] || null
+        const cell = row && row[Number(colIndex)] || null
+        return cell
     },
 
     clickHandle: function (event) {
         
-        console.log(event.target.dataset.rowIndex)
-        let x = ( this.findCellByIndexes( event.target.dataset.rowIndex , event.target.dataset.colIndex))
-        console.log("hey")
-        console.log(x)
+        console.log(event.target.dataset.rowIndex);
+        let x = ( this.findCellByIndexes(event.target.dataset.rowIndex , event.target.dataset.colIndex));
+        console.log(this.findNeighbors(x));
+        console.log("hey");
+        console.log(x);
         x.setAsClicked();
         console.log(x);
     },
-
-    findNeighbor: function ( cell ) {
-        
+    
+    findNeighbors: function ({ rowIndex, colIndex }) {
+        return this.offsets
+            .map(([ rowOffset, colOffset ]) => {
+                return this.findCellByIndexes(rowIndex + rowOffset, colIndex + colOffset)
+            })
+            .filter(cell => cell !== null)
     },
 
     constructor: Grid,
